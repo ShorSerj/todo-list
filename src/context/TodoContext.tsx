@@ -8,7 +8,6 @@ type Todo = {
 
 type TodoContextType = {
   todos: Todo[];
-  totalTodos: number;
   addTodo: (todo: Todo) => void;
   toggleTodo: (id: string) => void;
   updateTodo: (id: string, text: string) => void;
@@ -20,7 +19,6 @@ export const TodoContext = createContext<TodoContextType | null>(null);
 export const TodoProvider: FC<PropsWithChildren> = ({ children }) => {
   const [todos, setTodos] = useState<Todo[]>([])
 
-  const totalTodos = todos.length;
   const addTodo = useCallback((todo: Todo) => {
     setTodos((todos) => [...todos, todo]);
   }, [])
@@ -42,7 +40,7 @@ export const TodoProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [])
 
   const value = useMemo(
-    () => ({todos, totalTodos, addTodo, toggleTodo, updateTodo, removeTodo}), [todos, totalTodos]
+    () => ({todos, addTodo, toggleTodo, updateTodo, removeTodo}), [todos]
   );
 
   return (
