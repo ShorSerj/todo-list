@@ -1,10 +1,10 @@
 import { Button, Input, Grid } from "@chakra-ui/react";
-import { useAtom } from "jotai";
-import { addTodoAtom, newTodoAtom } from "../store.ts";
+import { useTodo } from "@/hooks/useTodo.tsx";
+import { useState } from "react";
 
 function TodoAdd() {
-  const [newTodo, newTodoState] = useAtom(newTodoAtom);
-  const [, addTodo] = useAtom(addTodoAtom);
+  const [newTodo, newTodoState] = useState('');
+  const { addTodo } = useTodo();
   return (
     <Grid pt={2} templateColumns="5fr 1fr" columnGap="3">
       <Input
@@ -12,7 +12,10 @@ function TodoAdd() {
         value={newTodo}
         onChange={e => newTodoState(e.target.value)}
       />
-      <Button onClick={() => addTodo()}>Add Todo</Button>
+      <Button onClick={() => {
+        addTodo({id: crypto.randomUUID(), text:newTodo, done:false })
+        newTodoState('')
+      }}>Add Todo</Button>
     </Grid>
   );
 }
